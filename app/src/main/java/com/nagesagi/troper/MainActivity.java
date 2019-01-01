@@ -1,16 +1,20 @@
 package com.nagesagi.troper;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
-import android.view.View;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
 import android.widget.TextView;
+
+import com.nagesagi.troper.dataaccessor.AsyncWebDataAccessor;
+import com.nagesagi.troper.dataaccessor.WebsiteArticleFetcher;
+import com.nagesagi.troper.models.Article;
+import com.nagesagi.troper.parser.ArticleParser;
+import com.nagesagi.troper.parser.WebsiteArticleParser;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,19 +25,52 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
 
-        TextView textbox = findViewById(R.id.contentText);
-        textbox.setText(Html.fromHtml("<html><body><h1>New text</h1></body></html>", Html.FROM_HTML_MODE_COMPACT));
+        WebView textbox = findViewById(R.id.contentText);
+        textbox.loadData("<html><body><h1>blah blah</h1></body></html>",  "text/html", "iso-8859-1");
+        String uri = "http://tvtropes.org/pmwiki/pmwiki.php/Main/NotWearingTights";
+        final Article article = new Article(uri);
+        new AsyncWebDataAccessor(webpage -> {
+            ArticleParser parser = new WebsiteArticleParser();
+            try {
+                longMessage("Raw: ",webpage.html());
+                article.setRawHtml(webpage);
+                article.setFormattedHtml(parser.parse(article.getRawHtml()));
+                longMessage("Formatted: ",article.getFormattedHtml().html());
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            textbox.loadData(article.getFormattedHtml().html(),  "text/html", "iso-8859-1");
+        }).execute(uri);
+        //WebsiteArticleFetcher fetcher = new WebsiteArticleFetcher();
+        //Article article = fetcher.access(uri);
+//        ArticleParser parser = new WebsiteArticleParser();
+//        try {
+//            article.setFormattedHtml(parser.parse(article.getRawHtml()));
+//            textbox.setText(Html.fromHtml(article.getFormattedHtml().html(), Html.FROM_HTML_MODE_COMPACT));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
+    private void longMessage(String tag, String message){
+        int maxLogSize = 1000;
+        for(int i = 0; i <= message.length() / maxLogSize; i++) {
+            int start = i * maxLogSize;
+            int end = (i+1) * maxLogSize;
+            end = end > message.length() ? message.length() : end;
+            Log.d(tag, message.substring(start, end));
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
