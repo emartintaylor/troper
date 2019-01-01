@@ -35,16 +35,16 @@ public class MainActivity extends AppCompatActivity {
 //        });
 
         WebView textbox = findViewById(R.id.contentText);
-        textbox.loadData("<html><body><h1>blah blah</h1></body></html>",  "text/html", "iso-8859-1");
+        textbox.getSettings().setJavaScriptEnabled(true);
+        textbox.loadData("<html><body><h1>Loading content</h1></body></html>",  "text/html", "iso-8859-1");
         String uri = "http://tvtropes.org/pmwiki/pmwiki.php/Main/NotWearingTights";
+
         final Article article = new Article(uri);
         new AsyncWebDataAccessor(webpage -> {
             ArticleParser parser = new WebsiteArticleParser();
             try {
-                longMessage("Raw: ",webpage.html());
                 article.setRawHtml(webpage);
                 article.setFormattedHtml(parser.parse(article.getRawHtml()));
-                longMessage("Formatted: ",article.getFormattedHtml().html());
 
             } catch (Exception e) {
                 e.printStackTrace();
