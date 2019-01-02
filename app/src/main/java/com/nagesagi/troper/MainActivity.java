@@ -1,5 +1,7 @@
 package com.nagesagi.troper;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -18,15 +20,14 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        WebView webView = findViewById(R.id.contentText);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.loadData("<html><body><h1>Main pagesLoading content</h1></body></html>",  "text/html", "iso-8859-1");
 
-        WebView textbox = findViewById(R.id.contentText);
-        textbox.getSettings().setJavaScriptEnabled(true);
-        textbox.loadData("<html><body><h1>Loading content</h1></body></html>",  "text/html", "iso-8859-1");
-        String uri = "http://tvtropes.org/pmwiki/pmwiki.php/Main/NotWearingTights";
+        Intent intent = new Intent(this, ArticleActivity.class);
+        intent.putExtra("url", "http://tvtropes.org/pmwiki/pmwiki.php/Main/NotWearingTights");
 
-        new AsyncProcessor(article -> {
-            textbox.loadData(article.getFormattedHtml().html(),  "text/html", "iso-8859-1");
-        }).execute(uri);
+        startActivity(intent);
     }
 
     @Override
