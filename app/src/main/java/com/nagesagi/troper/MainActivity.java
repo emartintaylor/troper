@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         WebView webView = findViewById(R.id.contentText);
-        webView.getSettings().setJavaScriptEnabled(true);
         webView.loadData("<html><body><h1>Main pagesLoading content</h1></body></html>",  "text/html", "iso-8859-1");
 
         Intent intent = new Intent(this, ArticleActivity.class);
