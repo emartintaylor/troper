@@ -9,14 +9,13 @@ import org.jsoup.select.Elements;
 
 public class WebsiteArticleParser implements ArticleParser {
     @Override
-    public Document parse(Document document) throws Exception {
-
+    public Document parse(Document document){
         String title = document.getElementsByClass("entry-title").first().text();
 
         Element content = document.getElementById("main-article");
 
         if (content == null) //In case it wasn't parsable
-            throw new Exception("Document did not parse correctly and is probably of an unsupported type!");
+            return Jsoup.parse("<html><body><h1>Error ");
 
         String mainColor = "white";
         String backColor = "black";
