@@ -17,19 +17,17 @@ public class ArticleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_article);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String uri = intent.getStringExtra("url");
+        String url = intent.getStringExtra("url");
 
         WebView webView = findViewById(R.id.articleContentText);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadData("<html><body><h1>Loading content</h1></body></html>",  "text/html", "iso-8859-1");
 
-        new AsyncProcessor(article -> {
-            webView.loadData(article.getFormattedHtml().html(),  "text/html", "iso-8859-1");
-        }).execute(uri);
+        ProcessorFactory.getProcessor(url, webView).execute(url);
     }
 
 }
