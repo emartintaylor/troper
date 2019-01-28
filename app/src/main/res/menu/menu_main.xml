@@ -7,4 +7,15 @@
         android:orderInCategory="100"
         android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/random"
+        android:orderInCategory="100"
+        android:title="@string/random"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/test_page"
+        android:orderInCategory="100"
+        android:title="@string/test_page"
+        app:showAsAction="never" />
 </menu>

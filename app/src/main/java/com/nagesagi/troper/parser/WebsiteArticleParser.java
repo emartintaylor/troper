@@ -17,11 +17,6 @@ public class WebsiteArticleParser implements ArticleParser {
         if (content == null) //In case it wasn't parsable
             return Jsoup.parse("<html><body><h1>Error ");
 
-        String mainColor = "white";
-        String backColor = "black";
-        String linkColor = "#33b5e5";
-        String folderStyle = "text-align:center; border:1px; border-style:solid; background-color: black; border-color: #33b5e5; border-radius:8px; padding:6px;";
-
         //Remove unwanted elements
         content.select("ins").remove();
         content.select("script").remove();

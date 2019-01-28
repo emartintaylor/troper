@@ -11,7 +11,7 @@ import android.webkit.WebView;
 
 import com.nagesagi.troper.processor.AsyncProcessor;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends DefaultMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,31 +23,8 @@ public class MainActivity extends AppCompatActivity {
         WebView webView = findViewById(R.id.contentText);
         webView.loadData("<html><body><h1>Main pagesLoading content</h1></body></html>",  "text/html", "iso-8859-1");
 
-        Intent intent = new Intent(this, ArticleActivity.class);
-        intent.putExtra("url", "http://tvtropes.org/pmwiki/pmwiki.php/Main/NotWearingTights");
+        /*Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.tvtropes.org/pmwiki/pmwiki.php/Main/NotWearingTights"));
 
-        startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        startActivity(intent);*/
     }
 }

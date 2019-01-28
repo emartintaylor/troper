@@ -1,6 +1,7 @@
 package com.nagesagi.troper;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -11,7 +12,7 @@ import android.webkit.WebView;
 
 import com.nagesagi.troper.processor.AsyncProcessor;
 
-public class ArticleActivity extends AppCompatActivity {
+public class ArticleActivity extends DefaultMenuActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,13 +22,12 @@ public class ArticleActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Intent intent = getIntent();
-        String url = intent.getStringExtra("url");
+        String url = intent.getData().toString();
 
         WebView webView = findViewById(R.id.articleContentText);
         webView.getSettings().setJavaScriptEnabled(true);
         webView.loadData("<html><body><h1>Loading content</h1></body></html>",  "text/html", "iso-8859-1");
 
-        ProcessorFactory.getProcessor(url, webView).execute(url);
+        ProcessorFactory.getProcessorWithMetrics(url, webView, this).execute(url);
     }
-
 }
